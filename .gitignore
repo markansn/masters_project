@@ -1,0 +1,16 @@
+### Python template
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*$py.class
+*DS_Store
+
+# Pycharm information
+.idea/*
+/features/
+
+**/drebin_data
+**/mamadroid
+**/blade
+**/.gitold
+**/apg-features
+**/droidapiminer_data
