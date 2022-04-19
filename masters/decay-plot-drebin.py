@@ -54,8 +54,8 @@ def main():
     # for item in X:
     #     X_all.append(str(item))
 
-    drebin_class_split.remove_class(X, "api_permissions")
-    IPython.embed()
+    # drebin_class_split.remove_class(X, "api_permissions")
+    # IPython.embed()
     x = vec.fit_transform(X)
     y = np.asarray(Y)
     tv = np.asarray(t)

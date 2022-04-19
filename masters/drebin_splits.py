@@ -26,7 +26,7 @@ def main(removed, pltname):
     # vec = DictVectorizer()
 
 
-    drebin_class_split.remove_class(X, removed)
+    X = drebin_class_split.remove_class(X, removed)
     print(len(X))
     print(removed + " " + str(129728 - len(X)))
     # IPython.embed()
@@ -60,8 +60,8 @@ def main(removed, pltname):
 
 
 
-# "urls", "intents", "activities", 
-features = ["api_calls", "app_permissions", "api_permissions", "interesting_calls"]
+# "urls", "intents", "activities",
+features = ["api_calls", "app_permissions", "api_permissions", "interesting_calls", "urls", "intents", "activities"]
 
 for feature in features:
     main(feature, "drebin_split_" + feature)
