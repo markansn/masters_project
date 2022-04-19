@@ -1,3 +1,4 @@
+import datetime
 import sys
 
 from sklearn.ensemble import RandomForestClassifier
@@ -20,19 +21,33 @@ def main():
 
 
     X, Y, t = load_features("../droidapiminer_data/apg-droidapiminer")
+    # X = []
+    # Y = []
 
+    # for i, item in enumerate(X1):
+    #     if item != {}:
+    #         X.append(item)
+    #         Y.append(Y1[i])
+    #         t.append(t1[i])
+    for i in range(0, len(t)):
+        item = t[i]
+        print(item.year)
+        t[i] = datetime.datetime(item.year, 1, 1)
+
+    print(t)
+    print(len(X))
     vec = DictVectorizer()
     x = vec.fit_transform(X)
     y = np.asarray(Y)
     tv = np.asarray(t)
-
+    print(len(X))
 
     splits = temporal.time_aware_train_test_split(
-        x, y, tv, train_size=12, test_size=1, granularity='month')
+        x, y, tv, train_size=24, test_size=1, granularity='month')
     Parameters = {'C': [0.001, 0.01, 0.1, 1, 10, 100, 1000]}
     # Perform a timeline evaluation
     # clf = GridSearchCV(LinearSVC(), Parameters, cv= 5, scoring= 'f1', n_jobs=4, verbose=2 )
-    clf = LinearSVC(max_iter=10000)
+    clf = LinearSVC(max_iter=10000, C=1)
     # clf = RandomForestClassifier()
     results = evaluation.fit_predict_update(clf, *splits)
 

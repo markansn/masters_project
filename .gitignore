@@ -14,3 +14,7 @@ __pycache__/
 **/.gitold
 **/apg-features
 **/droidapiminer_data
+**/features-bitbucket
+/data/
+/data_old
+/figs

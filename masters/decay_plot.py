@@ -6,17 +6,11 @@ import drebin_class_split
 from masters.load_features import *
 from tesseract import evaluation, temporal, metrics, viz
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.naive_bayes import GaussianNB
-from sklearn.linear_model import SGDClassifier
-from sklearn import tree
-
-from sklearn.feature_extraction import FeatureHasher
-def main():
+import time
+def main(load_src, vec, clf, pltname, train_size):
     # Generate dummy predictors, labels and timestamps from Gaussians
     # X, Y, t = load_features("../features-bitbucket/drebin-parrot-v2-down-features")
-    X, Y, t = load_no_apg("../features-bitbucket/drebin-parrot-v2-down-features")
+    X, Y, t = load_features(load_src)
     # X, Y, t = load_apg("../apg-features/apg")
 
     # times = {}
@@ -46,16 +40,18 @@ def main():
     # drebin_class_split.remove_class(X, "activities")
     print(len(X))
     # print(X)
-    # vec = FeatureHasher()
-    vec = DictVectorizer()
+    # vec = DictVectorizer()
     # X_all = list(X.values())
     # vec = TfidfVectorizer()
     # X_all = []
     # for item in X:
     #     X_all.append(str(item))
-
-    drebin_class_split.remove_class(X, "api_permissions")
-    IPython.embed()
+    if str(vec) == str(TfidfVectorizer()):
+        print("tfidf")
+        X_all = []
+        for item in X:
+            X_all.append(str(item))
+        X = X_all
     x = vec.fit_transform(X)
     y = np.asarray(Y)
     tv = np.asarray(t)
@@ -63,27 +59,29 @@ def main():
 
     # Partition dataset
     splits = temporal.time_aware_train_test_split(
-        x, y, tv, train_size=12, test_size=1, granularity='month')
+        x, y, tv, train_size=train_size, test_size=1, granularity='month')
     # print some stuff out here
     # IPython.embed()
     # Perform a timeline evaluation
     # clf = LinearSVC(max_iter=10000, C=1)
-    # clf = RandomForestClassifier(max_depth=10)
-    # clf = KNeighborsClassifier()
     # clf = LinearSVC()
-    clf = SGDClassifier(max_iter=10000)
+    start = time.time()
     results = evaluation.fit_predict_update(clf, *splits)
-    print(results)
-    # View results
+    time_taken = time.time() - start
+
+    # print(results)
+    # # View results
     metrics.print_metrics(results)
-
-    # View AUT(F1, 24 months) as a measure of robustness over time
-    print(metrics.aut(results, 'f1'))
-
-
+    #
+    # # View AUT(F1, 24 months) as a measure of robustness over time
+    # print(metrics.aut(results, 'f1'))
+    #
+    #
     plt = viz.plot_decay(results)
-    plt.show()
+    # plt.show()
+    plt.savefig("../figs/" + pltname)
 
+    return results, time_taken
 
 
 if __name__ == '__main__':

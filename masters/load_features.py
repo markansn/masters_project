@@ -20,6 +20,7 @@ def load_features(fname, shas=False):
             for the dataset. 
 
     """
+
     logging.info('Loading features...')
     with open('{}-X.json'.format(fname), 'r') as f:
         X = json.load(f)
@@ -42,4 +43,50 @@ def load_features(fname, shas=False):
     else:
         t = [datetime.strptime(o if isinstance(o, str) else time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(o)),
                                '%Y-%m-%d %H:%M:%S') for o in t]
+    return X, y, t
+
+
+def load_apg(fname):
+    logging.info('Loading features...')
+    with open('{}-X.json'.format(fname), 'r') as f:
+        X = json.load(f)
+    # if not shas:
+    #     [o.pop('sha256') for o in X]
+
+    logging.info('Loading labels...')
+    with open('{}-y.json'.format(fname), 'rt') as f:
+        y = json.load(f)
+
+    logging.info('Loading timestamps...')
+    with open('{}-meta.json'.format(fname), 'rt') as f:
+        t = json.load(f)
+    t = [o['dex_date'] for o in t]
+
+    t = [datetime.strptime(o if isinstance(o, str) else time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(o)),
+                           '%Y-%m-%d %H:%M:%S') for o in t]
+
+    return X, y, t
+
+def load_no_apg(fname):
+
+    logging.info('Loading features...')
+    with open('{}-X.json'.format(fname), 'r') as f:
+        X = json.load(f)
+    # if not shas:
+    #     [o.pop('sha256') for o in X]
+
+    logging.info('Loading labels...')
+    with open('{}-y.json'.format(fname), 'rt') as f:
+        y = json.load(f)
+
+    y = [o[0] for o in y]
+
+    logging.info('Loading timestamps...')
+    with open('{}-meta.json'.format(fname), 'rt') as f:
+        t = json.load(f)
+    t = [o['dex_date'] for o in t]
+
+    t = [datetime.strptime(o if isinstance(o, str) else time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(o)),
+                           '%Y-%m-%dT%H:%M:%S') for o in t]
+
     return X, y, t
