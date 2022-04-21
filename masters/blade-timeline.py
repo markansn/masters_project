@@ -26,13 +26,13 @@ def main():
     X = []
     Y = []
     t = []
-    for i, item in enumerate(X1):
+    for i, item in enumerate(X1): #2010
         if len(item) > 0 and t1[i].year > 2010 and len(times_dict[str(t1[i].year) + "." + str(t1[i].month)]) == 2:
             X.append(item)
             Y.append(Y1[i])
             t.append(t1[i])
 
-
+    print(len(X))
     times = {}
     for i, time in enumerate(t):
         a = str(time.year) + "." + str(time.month)
@@ -53,7 +53,7 @@ def main():
 
 
     splits = temporal.time_aware_train_test_split(
-        x, y, tv, train_size=4, test_size=1, granularity='month')
+        x, y, tv, train_size=10, test_size=1, granularity='month')
     Parameters = {'C': [0.001, 0.01, 0.1, 1, 10, 100, 1000]}
     # Perform a timeline evaluation
     # clf = GridSearchCV(LinearSVC(), Parameters, cv= 5, scoring= 'f1', n_jobs=4, verbose=2 )
@@ -65,7 +65,7 @@ def main():
     metrics.print_metrics(results)
 
     plt = viz.plot_decay(results)
-    plt.show()
+    plt.savefig("test")
 
 
 

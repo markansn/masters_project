@@ -17,29 +17,34 @@ experiment = "classifiers"
 
 drebin = "../features-bitbucket/drebin-parrot-v2-down-features"
 mamadroid = "../mamadroid/mamadroid"
-
-
-# ,
-# classifiers = [] RandomForestClassifier() tree.DecisionTreeClassifier LinearSVC(max_iter=10000, C=1), KNeighborsClassifier(1), KNeighborsClassifier(5),
-classifiers = [KNeighborsClassifier(10)]
+blade = "../blade/AA/apg-autopsy"
+types = ["../mamadroid/mamadroid", "../features-bitbucket/drebin-parrot-v2-down-features" ]
+names = ["mamadroid", "drebin"]
+# , tree.DecisionTreeClassifier(),
+# KNeighborsClassifier(1), KNeighborsClassifier(5), KNeighborsClassifier(10), SGDClassifier(max_iter=10000), tree.DecisionTreeClassifier(), RandomForestClassifier() RandomForestClassifier() "drebin",  "../features-bitbucket/drebin-parrot-v2-down-features",
+# classifiers = [] RandomForestClassifier() tree.DecisionTreeClassifier LinearSVC(max_iter=10000, C=1), KNeighborsClassifier(1), KNeighborsClassifier(5), LinearSVC(max_iter=10000, C=1)
+classifiers = [RandomForestClassifier()]
 results = []
-for classifier in classifiers:
-    vec = DictVectorizer()
-    title = name + "_" + experiment + "_" + str(classifier)
-    out, time_taken = decay_plot.main(mamadroid, vec, classifier, title , 12)
-    print(out)
-    # dumping = {}
-    # for item in out:
-    #     if isinstance(item, str):
-    #         dumping[item] = out[item]
+for i, type in enumerate(types):
+    print(type)
+    for classifier in classifiers:
+        print(classifier)
+        vec = DictVectorizer()
+        title = names[i] + "_" + experiment + "_" + str(classifier)
+        out, time_taken = decay_plot.main(type, vec, classifier, title , 12) #set for drebin
+        print(out)
+        # dumping = {}
+        # for item in out:
+        #     if isinstance(item, str):
+        #         dumping[item] = out[item]
 
-    # IPython.embed()
-    with open("../data/" + title + ".txt", "w+") as f:
-        f.write(str(out))
-    with open("../data/" + title + ".pickle", "wb+") as h:
-        pickle.dump(out, h)
-    with open("../data/" + title + "_time.txt", "w+") as l:
-        l.write(str(time_taken))
+        # IPython.embed()
+        with open("../data/" + title + ".txt", "w+") as f:
+            f.write(str(out))
+        with open("../data/" + title + ".pickle", "wb+") as h:
+            pickle.dump(out, h)
+        with open("../data/" + title + "_time.txt", "w+") as l:
+            l.write(str(time_taken))
 
 
 

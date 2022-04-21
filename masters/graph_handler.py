@@ -64,14 +64,28 @@ for feature in features:
 
 # plt.figure(1)
 # plt.clf()
-plotdata = []
+plotdata1 = []
+plotdata2 = []
+manifest = ["app_permissions", "intents", "activities"]
 plt.xticks([])
 plt.yticks([])
-plotdata.append(["$\\bf{Drebin\\ feature\\ set}$", "$\\bf{AUT(F1, 24)}$"])
+plotdata1.append(["$\\bf{Drebin\\ manifest\\ feature\\ set}$", "$\\bf{AUT(F1, 24)}$"])
+plotdata2.append(["$\\bf{Drebin\\ bytecode\\ feature\\ set}$", "$\\bf{AUT(F1, 24)}$"])
+avg1 = 0
+avg2 = 0
 for a in AUTs:
-    plotdata.append([a, AUTs[a]])
+    if a in manifest:
+        plotdata1.append([a, AUTs[a]])
+        avg1 += AUTs[a]
+    else:
+        plotdata2.append([a, AUTs[a]])
+        avg2 += AUTs[a]
+
+plotdata1.append(["$\\bf{Average}$", str(avg1/3)])
+plotdata2.append(["$\\bf{Average}$", str(avg1/4)])
 plt.tight_layout()
 plt.axis("off")
 plt.autoscale()
-plt.table(cellText=plotdata, loc="center", bbox=None)
+plt.table(cellText=plotdata1, loc="best", bbox=None)
+plt.table(cellText=plotdata2, loc="center", bbox=None)
 plt.show()

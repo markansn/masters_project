@@ -43,6 +43,21 @@ def main():
 
     # IPython.embed()
 
+
+    print(len(X))
+    times = {}
+    for i, time in enumerate(t):
+        a = str(time.year) + "." + str(time.month)
+        if a in times:
+            times[a].add(Y[i])
+        else:
+            times[a] = set()
+            times[a].add(Y[i])
+
+
+    print(str(times))
+    print(len(times))
+
     # drebin_class_split.remove_class(X, "activities")
     print(len(X))
     # print(X)

@@ -72,7 +72,8 @@ def set_style():
 
     sns.set('paper', font='serif', style='ticks', rc={
         'font.family': 'serif',
-        'legend.fontsize': 'medium',
+        'legend.fontsize': 'small',
+        'legend.loc': 'upper right',
         'xtick.labelsize': 'medium',
         'ytick.labelsize': 'medium',
         'axes.labelsize': 'x-large',
